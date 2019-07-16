@@ -25,6 +25,14 @@ Hello Closures!
 Hello Closures!
 ```
 
+func applyKTimes(_ K: Int, _ closure: () -> ()) {
+ for something in 1...K {
+       closure()
+  }
+}
+
+applyKTimes(3, { print("Hello Closures!") })
+
 
 ## Question 2
 
@@ -38,6 +46,12 @@ Input: `let numbers = [1, 2, 3, 4, 6, 8, 9, 3, 12, 11]`
 Expected values: `multiples = [3, 6, 9, 3, 12]`
 
 
+let numbers = [1, 2, 3, 4, 6, 8, 9, 3, 12, 11]
+
+let multiples = numbers.filter { ( $0 % 3 == 0) }
+
+print(multiples)
+
 ## Question 3
 
 Find the largest number from `numbers` and then print it. Use `reduce` to solve this exercise.
@@ -46,6 +60,14 @@ Example:
 Input: `let numbers = [4, 7, 1, 9, 6, 5, 6, 9]`
 
 Output: `9`
+
+let numbers = [4, 7, 1, 9, 6, 5, 6, 9]
+
+let numbersMax = numbers.reduce(0, { x, y in
+       return x > y ? x : y
+})
+
+print(numbersMax)
 
 
 ## Question 4
@@ -56,6 +78,18 @@ Example:
 Input: `let strings = ["We", "Heart", "Swift"]`
 
 Output: `"We Heart Swift"`
+
+let strings = ["We", "Heart", "Swift"]
+
+let joinedStrings = strings.reduce(""){
+   if $0 == "" {
+   return $1
+} else {
+  return $0 + " " + $1
+}
+}
+
+
 
 
 ## Question 5
@@ -68,6 +102,23 @@ b. Use `sortedBy` to sort `cities` alphabetical order of the second character of
 
 c. Use `sortedBy` to sort `cities` in order of the length of the city name.
 
+//a
+
+print(cities.sorted(by: {a, b in
+  b > a
+}))
+
+//b
+
+print(cities.sorted(by: {a, b in
+  return b.dropFirst() > a.dropFirst()
+}))
+
+//c
+print(cities.sorted(by: {a, b in
+  b.count > a.count
+}))
+
 
 ## Question 6
 
@@ -76,6 +127,19 @@ c. Use `sortedBy` to sort `cities` in order of the length of the city name.
 a. Use `sortedBy` to sort `citiesWithPopulation` in ascending order of population.
 
 b. Use `sortedBy` to sort `citiesWithPopulation` in reverse alphabetical order of the last character in the city name.
+
+//a
+
+var ascendingPopulation = citiesWithPopulation.sorted { (a,b) -> Bool in
+   return a.1 > b.1
+}
+print(ascendingPopulation)
+
+//b
+
+var ascendingReverse = citiesWithPopulation.sorted { (a,b) -> Bool in
+   return a.0.last! > b.0.last! }
+print(ascendingReverse)
 
 
 ## Question 7
@@ -119,6 +183,44 @@ Input: `var numbers = [1, 2, 3, 4, 5, 6]`
 
 Output: `35 // 1 + 9 + 25 -> 35`
 
+var numbers = [1, 2, 3, 4, 5, 6]
+var sum = 0
+var sum2 = 0
+var evenNumbers = [Int]()
+//a
+
+for i in numbers {
+  if i % 2 == 0 {
+  evenNumbers += [i]
+ }
+}
+
+print(evenNumbers)
+
+
+//b
+
+var squaredNumbers = numbers.map({a -> Int in
+ return (a * a)
+})
+
+print(squaredNumbers)
+
+//c
+for i in numbers {
+ sum += i
+}
+
+print(sum)
+
+//d
+for i in numbers {
+if i % 2 != 0 {
+sum2 += (i * i)
+}
+}
+
+print(sum2)
 
 ## Question 9
 
@@ -141,6 +243,16 @@ Output:
 9
 16
 ```
+func forEach(array: [Int], _ closure: (Int) -> ()) {
+    for i in 0..<array.count {
+   closure(array[i])
+  }
+}
+
+forEach(array: [1,2,3,4]) {
+  print( $0 * $0)
+}
+
 
 ## Question 10
 
@@ -200,14 +312,17 @@ a) Sort `myArray` in ascending order by defining the constant `ascendingOrder` b
 
 ```swift
 let mySortedArray = myArray.sort(ascendingOrder)
-let ascendingOrder =
+
+let ascendingOrder = { (x: Int, y: Int) -> Bool in return x < y }
+
 ```
 
 b) Sort `myArray` in descending order by defining the constant `descendingOrder` below.
 
 ```swift
 let mySecondSortedArray = myArray.sort(descendingOrder)
-let descendingOrder =
+
+let descendingOrder = { (x: Int, y: Int) -> Bool in return x > y }
 ```
 
 
